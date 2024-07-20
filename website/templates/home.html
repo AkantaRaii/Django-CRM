@@ -21,8 +21,11 @@
     <td>{{record.address}}</td>
     <td>{{record.city}}</td>
   </tr>
-  {% endfor %}
+  {% endfor %}  
 </table>
+<br>
+<a class="btn btn-primary" href="{% url 'add'%}">Add Record</a>  
+
 {% else %}
     <div class="col-md-6 offset-md-3">
         <h1>Login</h1><br>

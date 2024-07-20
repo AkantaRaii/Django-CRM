@@ -50,15 +50,39 @@ def show_record(request,pk):
         return redirect('home')
 def edit(request,pk):
     if request.user.is_authenticated:
-        current_record=models.Record.objects.get(id=pk)
-        form=edit_form(request.POST,instance=current_record)
+        customer=models.Record.objects.get(id=pk)
+        form=edit_form(request.POST,instance=customer)
         if form.is_valid():
-            form.save() 
-            messages.success(request,"Edited Successfully")
+            form.save()
+            messages.success(request,"reocrd edit is succefull")
             return redirect('home')
-        form2=edit_form(None,instance=current_record)
-        return render(request,'edit.html',{'form':form2})
+        form=edit_form(None, instance=customer)
+        return render(request,'edit.html',{'form':form})
     else:
+        messages.success("you are not logged in")
         return redirect('home')
 def delete(request,pk):
-    pass
+    if request.user.is_authenticated:
+        customer=models.Record.objects.get(id=pk)
+        customer.delete()
+        messages.success(request,"record deleted succefully")
+        return redirect('home')
+    else:
+        messages.success("you are not logged in")
+        return redirect('home')
+def add(request):
+    if request.user.is_authenticated:
+        if request.method=='POST':
+            form=edit_form(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request,"Reccord added succefully")
+                return redirect('home')
+        else:
+            form=edit_form()
+            return render(request,'add.html',{'form':form})
+    else:
+        messages.success(request,"you are not logged in")
+        return redirect('home')
+
+        
